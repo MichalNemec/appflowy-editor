@@ -255,6 +255,7 @@ class _FlowyRichTextState extends State<FlowyRichText> with SelectableMixin {
       var textStyle = style.text.copyWith(height: widget.lineHeight);
       GestureRecognizer? recognizer;
       final attributes = textInsert.attributes;
+      bool clickable = false;
       if (attributes != null) {
         if (attributes.bold == true) {
           textStyle = textStyle.combine(style.bold);
@@ -270,6 +271,7 @@ class _FlowyRichTextState extends State<FlowyRichText> with SelectableMixin {
         }
         if (attributes.href != null) {
           textStyle = textStyle.combine(style.href);
+          clickable = true;
           recognizer = _buildTapHrefGestureRecognizer(
             attributes.href!,
             Selection.single(
@@ -295,6 +297,7 @@ class _FlowyRichTextState extends State<FlowyRichText> with SelectableMixin {
       }
       final textSpan = TextSpan(
         text: textInsert.text,
+        mouseCursor: clickable ? MaterialStateMouseCursor.clickable : null,
         style: textStyle,
         recognizer: recognizer,
       );
